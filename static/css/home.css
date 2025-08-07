@@ -1,0 +1,26 @@
+.container {
+    text-align: center;
+    padding-top: 100px;
+    background-color: #f4f6f8;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+.title {
+    font-size: 2.5em;
+    color: #9eb44c;
+}
+
+.link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #9bb670;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.link:hover {
+    background-color: #a1ca99;
+}

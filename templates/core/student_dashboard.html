@@ -1,0 +1,257 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - EduTrack</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .calendar-day {
+            transition: all 0.3s ease;
+        }
+        .calendar-day:hover {
+            transform: scale(1.05);
+        }
+        .event-card {
+            transition: all 0.3s ease;
+        }
+        .event-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .notice-card {
+            transition: all 0.3s ease;
+        }
+        .notice-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .feedback-card {
+            transition: all 0.3s ease;
+        }
+        .feedback-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-blue-700">EduTrack</h1>
+                    <span class="ml-4 text-gray-500">Student Dashboard</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-600">Welcome, {{ request.user.username }}</span>
+                    <a href="/logout" class="text-red-600 hover:text-red-800">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 h-screen">
+            
+            <!-- Left Column: Calendar & Events -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- Calendar Section -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">
+                            <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
+                            Upcoming Events
+                        </h2>
+                        <span class="text-sm text-gray-500">{{ today|date:"F Y" }}</span>
+                    </div>
+                    
+                    {% if upcoming_events %}
+                        <div class="space-y-3">
+                            {% for event in upcoming_events %}
+                                <div class="event-card bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 p-4 rounded-lg">
+                                    <div class="flex items-start justify-between">
+                                        <div class="flex-1">
+                                            <h3 class="font-semibold text-gray-800">{{ event.title }}</h3>
+                                            <p class="text-sm text-gray-600 mt-1">{{ event.description|truncatewords:15 }}</p>
+                                            {% if event.location %}
+                                                <p class="text-xs text-gray-500 mt-1">
+                                                    <i class="fas fa-map-marker-alt mr-1"></i>{{ event.location }}
+                                                </p>
+                                            {% endif %}
+                                        </div>
+                                        <div class="text-right ml-4">
+                                            <div class="text-sm font-medium text-blue-600">
+                                                {{ event.date|date:"M d" }}
+                                            </div>
+                                            <div class="text-xs text-gray-500">
+                                                {{ event.time|time:"g:i A" }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-8 text-gray-500">
+                            <i class="fas fa-calendar-times text-4xl mb-3"></i>
+                            <p>No upcoming events</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Quick Calendar View -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                        <i class="fas fa-calendar-week text-green-600 mr-2"></i>
+                        This Week's Schedule
+                    </h3>
+                    <div class="grid grid-cols-7 gap-2">
+                        {% for i in "1234567" %}
+                            <div class="calendar-day bg-gray-100 rounded-lg p-3 text-center cursor-pointer hover:bg-blue-100">
+                                <div class="text-xs text-gray-500 mb-1">
+                                    {% if forloop.counter == 1 %}Mon{% elif forloop.counter == 2 %}Tue{% elif forloop.counter == 3 %}Wed{% elif forloop.counter == 4 %}Thu{% elif forloop.counter == 5 %}Fri{% elif forloop.counter == 6 %}Sat{% else %}Sun{% endif %}
+                                </div>
+                                <div class="text-sm font-medium text-gray-800">{{ forloop.counter }}</div>
+                                <div class="w-2 h-2 bg-blue-500 rounded-full mx-auto mt-1"></div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Notices & Feedback -->
+            <div class="space-y-6">
+                
+                <!-- Notices Section -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                        <i class="fas fa-bullhorn text-orange-600 mr-2"></i>
+                        Important Notices
+                    </h2>
+                    
+                    {% if active_notices %}
+                        <div class="space-y-3">
+                            {% for notice in active_notices %}
+                                <div class="notice-card border-l-4 {% if notice.priority == 'urgent' %}border-red-500 bg-red-50{% elif notice.priority == 'high' %}border-orange-500 bg-orange-50{% elif notice.priority == 'medium' %}border-yellow-500 bg-yellow-50{% else %}border-green-500 bg-green-50{% endif %} p-4 rounded-lg">
+                                    <div class="flex items-start justify-between">
+                                        <div class="flex-1">
+                                            <h3 class="font-semibold text-gray-800">{{ notice.title }}</h3>
+                                            <p class="text-sm text-gray-600 mt-1">{{ notice.content|truncatewords:20 }}</p>
+                                            <div class="flex items-center mt-2">
+                                                <span class="text-xs px-2 py-1 rounded-full {% if notice.priority == 'urgent' %}bg-red-200 text-red-800{% elif notice.priority == 'high' %}bg-orange-200 text-orange-800{% elif notice.priority == 'medium' %}bg-yellow-200 text-yellow-800{% else %}bg-green-200 text-green-800{% endif %}">
+                                                    {{ notice.priority|title }}
+                                                </span>
+                                                <span class="text-xs text-gray-500 ml-2">{{ notice.created_at|date:"M d" }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-8 text-gray-500">
+                            <i class="fas fa-bell-slash text-4xl mb-3"></i>
+                            <p>No notices at the moment</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Teacher Feedback Section -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                        <i class="fas fa-comments text-purple-600 mr-2"></i>
+                        Teacher Feedback
+                    </h2>
+                    
+                    {% if teacher_feedbacks %}
+                        <div class="space-y-3">
+                            {% for feedback in teacher_feedbacks %}
+                                <div class="feedback-card border border-gray-200 p-4 rounded-lg">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <h3 class="font-semibold text-gray-800">{{ feedback.teacher_name }}</h3>
+                                        <div class="flex items-center">
+                                            {% for i in "12345" %}
+                                                <i class="fas fa-star text-sm {% if forloop.counter <= feedback.rating %}text-yellow-400{% else %}text-gray-300{% endif %}"></i>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-blue-600 font-medium mb-2">{{ feedback.subject }}</p>
+                                    <p class="text-sm text-gray-600">{{ feedback.feedback_text|truncatewords:25 }}</p>
+                                    <div class="text-xs text-gray-500 mt-2">{{ feedback.created_at|date:"M d, Y" }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-8 text-gray-500">
+                            <i class="fas fa-comment-slash text-4xl mb-3"></i>
+                            <p>No feedback yet</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                        <i class="fas fa-chart-bar text-indigo-600 mr-2"></i>
+                        Quick Stats
+                    </h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="text-center p-3 bg-blue-50 rounded-lg">
+                            <div class="text-2xl font-bold text-blue-600">{{ upcoming_events.count }}</div>
+                            <div class="text-xs text-gray-600">Upcoming Events</div>
+                        </div>
+                        <div class="text-center p-3 bg-green-50 rounded-lg">
+                            <div class="text-2xl font-bold text-green-600">{{ active_notices.count }}</div>
+                            <div class="text-xs text-gray-600">Active Notices</div>
+                        </div>
+                        <div class="text-center p-3 bg-purple-50 rounded-lg">
+                            <div class="text-2xl font-bold text-purple-600">{{ teacher_feedbacks.count }}</div>
+                            <div class="text-xs text-gray-600">Feedback</div>
+                        </div>
+                        <div class="text-center p-3 bg-orange-50 rounded-lg">
+                            <div class="text-2xl font-bold text-orange-600">85%</div>
+                            <div class="text-xs text-gray-600">Attendance</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-sm">&copy; 2025 EduTrack. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Add some interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Calendar day click handlers
+            const calendarDays = document.querySelectorAll('.calendar-day');
+            calendarDays.forEach(day => {
+                day.addEventListener('click', function() {
+                    // Remove active class from all days
+                    calendarDays.forEach(d => d.classList.remove('bg-blue-200'));
+                    // Add active class to clicked day
+                    this.classList.add('bg-blue-200');
+                });
+            });
+
+            // Auto-refresh notices every 30 seconds
+            setInterval(function() {
+                // You could add AJAX call here to refresh notices
+                console.log('Checking for new notices...');
+            }, 30000);
+        });
+    </script>
+</body>
+</html> 

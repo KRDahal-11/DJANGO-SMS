@@ -1,0 +1,221 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - EduTrack</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .calendar-day {
+            transition: all 0.3s ease;
+        }
+        .calendar-day:hover {
+            transform: scale(1.05);
+        }
+        .event-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #3b82f6;
+            margin: 1px;
+        }
+        .event-card {
+            transition: all 0.3s ease;
+        }
+        .event-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-blue-700">EduTrack</h1>
+                    <span class="ml-4 text-gray-500">Teacher Dashboard</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-600">Welcome, {{ request.user.username }}</span>
+                    <a href="/logout" class="text-red-600 hover:text-red-800">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Left Column: Calendar -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <!-- Calendar Header -->
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-gray-800">
+                            <i class="fas fa-calendar-alt text-blue-600 mr-3"></i>
+                            {{ month_name }} {{ current_year }}
+                        </h2>
+                        <div class="flex space-x-2">
+                            <button class="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-md transition-colors">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-md transition-colors">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Calendar Grid -->
+                    <div class="grid grid-cols-7 gap-1">
+                        <!-- Day Headers -->
+                        <div class="p-2 text-center text-sm font-semibold text-gray-600">Sun</div>
+                        <div class="p-2 text-center text-sm font-semibold text-gray-600">Mon</div>
+                        <div class="p-2 text-center text-sm font-semibold text-gray-600">Tue</div>
+                        <div class="p-2 text-center text-sm font-semibold text-gray-600">Wed</div>
+                        <div class="p-2 text-center text-sm font-semibold text-gray-600">Thu</div>
+                        <div class="p-2 text-center text-sm font-semibold text-gray-600">Fri</div>
+                        <div class="p-2 text-center text-sm font-semibold text-gray-600">Sat</div>
+
+                        <!-- Calendar Days -->
+                        {% for week in calendar %}
+                            {% for day in week %}
+                                {% if day == 0 %}
+                                    <div class="p-2 h-20 bg-gray-50"></div>
+                                {% else %}
+                                    {% with current_date=current_year|stringformat:"s"|add:"-"|add:current_month|stringformat:"02d"|add:"-"|add:day|stringformat:"02d" %}
+                                        {% with day_events=month_events|slice:":5" %}
+                                            <div class="calendar-day p-2 h-20 border border-gray-200 {% if day == today.day %}bg-blue-50 border-blue-300{% else %}bg-white{% endif %} hover:bg-gray-50 cursor-pointer">
+                                                <div class="flex justify-between items-start">
+                                                    <span class="text-sm font-medium {% if day == today.day %}text-blue-600 font-bold{% else %}text-gray-700{% endif %}">
+                                                        {{ day }}
+                                                    </span>
+                                                    {% if day_events %}
+                                                        <div class="flex flex-wrap justify-end">
+                                                            {% for event in day_events %}
+                                                                {% if event.date.day == day %}
+                                                                    <div class="event-dot" title="{{ event.title }}"></div>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                                <!-- Event preview -->
+                                                <div class="mt-1">
+                                                    {% for event in month_events %}
+                                                        {% if event.date.day == day %}
+                                                            <div class="text-xs text-blue-600 truncate" title="{{ event.title }}">
+                                                                {{ event.title|truncatechars:15 }}
+                                                            </div>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        {% endwith %}
+                                    {% endwith %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Upcoming Events & Quick Actions -->
+            <div class="space-y-6">
+                <!-- Upcoming Events -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                        <i class="fas fa-clock text-blue-600 mr-2"></i>
+                        Upcoming Events
+                    </h3>
+                    {% if upcoming_events %}
+                        <div class="space-y-3">
+                            {% for event in upcoming_events %}
+                                <div class="event-card bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 p-3 rounded-lg">
+                                    <div class="flex items-start justify-between">
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold text-gray-800 text-sm">{{ event.title }}</h4>
+                                            {% if event.description %}
+                                                <p class="text-xs text-gray-600 mt-1">{{ event.description|truncatewords:8 }}</p>
+                                            {% endif %}
+                                            {% if event.location %}
+                                                <p class="text-xs text-gray-500 mt-1">
+                                                    <i class="fas fa-map-marker-alt mr-1"></i>{{ event.location }}
+                                                </p>
+                                            {% endif %}
+                                        </div>
+                                        <div class="text-right ml-3">
+                                            <div class="text-xs font-medium text-blue-600">
+                                                {{ event.date|date:"M d" }}
+                                            </div>
+                                            <div class="text-xs text-gray-500">
+                                                {{ event.time|time:"g:i A" }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-calendar-times text-gray-400 text-2xl mb-2"></i>
+                            <p class="text-gray-500 text-sm">No upcoming events</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                        <i class="fas fa-bolt text-green-600 mr-2"></i>
+                        Quick Actions
+                    </h3>
+                    <div class="space-y-3">
+                        <a href="/students/" class="block w-full text-left p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                            <div class="flex items-center">
+                                <i class="fas fa-users text-blue-600 mr-3"></i>
+                                <span class="text-gray-700">View Students</span>
+                            </div>
+                        </a>
+                        <a href="/add/" class="block w-full text-left p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                            <div class="flex items-center">
+                                <i class="fas fa-user-plus text-green-600 mr-3"></i>
+                                <span class="text-gray-700">Add Student</span>
+                            </div>
+                        </a>
+                        <button class="block w-full text-left p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                            <div class="flex items-center">
+                                <i class="fas fa-calendar-plus text-purple-600 mr-3"></i>
+                                <span class="text-gray-700">Add Event</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Card -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                        <i class="fas fa-chart-bar text-orange-600 mr-2"></i>
+                        This Month
+                    </h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-blue-600">{{ month_events.count }}</div>
+                            <div class="text-xs text-gray-500">Events</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-green-600">0</div>
+                            <div class="text-xs text-gray-500">Students</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html> 

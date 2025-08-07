@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Student</title>
+    <link rel="stylesheet" href="{% static 'css/student_style.css' %}">
+</head>
+<body>
+    <div class="container">
+        {% if request.user.username|slice:":8" == "teacher_" %}
+            <a class="button" href="{% url 'student_list' %}">Back to Student List</a>
+        {% endif %}
+        <h1>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Student</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="button">Save</button>
+            <a href="{% url 'student_list' %}" class="button cancel">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

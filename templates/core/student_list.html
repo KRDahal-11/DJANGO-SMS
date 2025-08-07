@@ -1,0 +1,27 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student List</title>
+    <link rel="stylesheet" href="{% static 'css/student_style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Students</h1>
+        <!-- {% if request.user.username|slice:":8" == "teacher_" %}
+            <a class="button" href="{% url 'add_student' %}">Add New Student</a>
+        {% endif %} -->
+        <ul>
+            {% for student in students %}
+                <li>
+                    {{ student.name }} (Roll No: {{ student.roll_no }}, Age: {{ student.age }})
+                    {% if request.user.username|slice:":8" == "teacher_" %}
+                        <a href="{% url 'edit_student' student.pk %}" class="edit-link">Edit</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

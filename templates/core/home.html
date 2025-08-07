@@ -1,0 +1,381 @@
+<!-- {% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>School Management System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  
+  <nav class="flex justify-between items-center p-6 bg-white shadow-md">
+    <div class="text-2xl font-bold text-blue-700">EduTrack</div>
+    <div>
+      <a href="/login" class="text-blue-600 hover:underline mr-4">Login</a>
+      <a href="/signup" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Sign Up</a>
+    </div>
+  </nav>
+
+  
+  <section class="flex flex-col md:flex-row items-center justify-between px-10 py-20 bg-gradient-to-r from-blue-100 to-white">
+    <div class="max-w-xl mb-10 md:mb-0">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6 text-blue-800">
+        Welcome to EduTrack
+      </h1>
+      <p class="text-lg text-gray-700 mb-6">
+        A smart and secure way to manage your school – from student records to teacher dashboards, all in one place.
+      </p>
+      <a href="/signup" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg text-lg hover:bg-blue-700">
+        Get Started
+      </a>
+    </div>
+    <img src="https://img.freepik.com/free-vector/education-technology-isometric-concept_1284-58172.jpg" alt="School Illustration" class="w-full md:w-1/2 rounded shadow-lg"/>
+  </section>
+
+  
+  <footer class="text-center p-4 text-sm text-gray-500">
+    &copy; 2025 EduTrack. All rights reserved.
+  </footer>
+
+</body>
+</html> -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>School Management System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function scrollToSection(sectionId) {
+      document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Floating Navigation Menu -->
+  <div id="sidebarMenu" class="fixed right-4 top-1/2 transform -translate-y-1/2 z-50 bg-white rounded-lg shadow-lg p-2 hidden lg:block transition-opacity duration-500 opacity-100 w-16">
+    <nav class="space-y-2">
+      <button onclick="scrollToSection('home')" class="block w-full text-center px-2 py-2 text-xs text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors" title="Home">
+        🏠
+      </button>
+      <button onclick="scrollToSection('about')" class="block w-full text-center px-2 py-2 text-xs text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors" title="About Us">
+        📚
+      </button>
+      <button onclick="scrollToSection('features')" class="block w-full text-center px-2 py-2 text-xs text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors" title="Features">
+        ⚡
+      </button>
+      <button onclick="scrollToSection('services')" class="block w-full text-center px-2 py-2 text-xs text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors" title="What We Do">
+        🎯
+      </button>
+      <button onclick="scrollToSection('testimonials')" class="block w-full text-center px-2 py-2 text-xs text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors" title="Reviews">
+        💬
+      </button>
+      <button onclick="scrollToSection('contact')" class="block w-full text-center px-2 py-2 text-xs text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors" title="Contact">
+        📞
+      </button>
+    </nav>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="flex justify-between items-center p-6 bg-white shadow-md sticky top-0 z-40">
+    <div class="text-2xl font-bold text-blue-700">EduTrack</div>
+    <div class="flex items-center space-x-4">
+      <a href="#about" class="text-gray-600 hover:text-blue-600 transition-colors">About</a>
+      <a href="#features" class="text-gray-600 hover:text-blue-600 transition-colors">Features</a>
+      <a href="#services" class="text-gray-600 hover:text-blue-600 transition-colors">Services</a>
+      <a href="/login" class="text-blue-600 hover:underline">Login</a>
+      <a href="/signup" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors">Sign Up</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="flex flex-col md:flex-row items-center justify-between px-10 py-20 bg-gradient-to-r from-blue-100 via-purple-50 to-blue-100">
+    <div class="max-w-xl mb-10 md:mb-0">
+      <h1 class="text-4xl md:text-6xl font-bold mb-6 text-blue-800 leading-tight">
+        Transform Your School Management
+      </h1>
+      <p class="text-xl text-gray-700 mb-8 leading-relaxed">
+        Streamline administrative tasks, enhance student engagement, and empower educators with our comprehensive school management platform.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <a href="/signup" class="inline-block bg-blue-600 text-white px-8 py-4 rounded-lg text-lg hover:bg-blue-700 transition-colors font-semibold text-center">
+          Start Free Trial
+        </a>
+        <a href="#features" class="inline-block border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-lg text-lg hover:bg-blue-600 hover:text-white transition-colors font-semibold text-center">
+          Learn More
+        </a>
+      </div>
+    </div>
+    <img src="https://img.freepik.com/free-vector/education-technology-isometric-concept_1284-58172.jpg" alt="School Illustration" class="w-full md:w-1/2 rounded-lg shadow-2xl"/>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-20 px-10 bg-white">
+    <div class="max-w-6xl mx-auto text-center">
+      <h2 class="text-4xl font-bold text-gray-800 mb-4">About EduTrack</h2>
+      <p class="text-xl text-gray-600 mb-12 max-w-3xl mx-auto">
+        We're dedicated to revolutionizing education management through innovative technology solutions that connect students, teachers, and administrators seamlessly.
+      </p>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="text-center p-6">
+          <div class="text-4xl mb-4">🎓</div>
+          <h3 class="text-xl font-semibold mb-3">Student-Centric</h3>
+          <p class="text-gray-600">Empowering students with easy access to their academic journey and progress tracking.</p>
+        </div>
+        <div class="text-center p-6">
+          <div class="text-4xl mb-4">👨‍🏫</div>
+          <h3 class="text-xl font-semibold mb-3">Teacher-Friendly</h3>
+          <p class="text-gray-600">Providing educators with powerful tools to manage classes and track student performance.</p>
+        </div>
+        <div class="text-center p-6">
+          <div class="text-4xl mb-4">⚙️</div>
+          <h3 class="text-xl font-semibold mb-3">Admin Efficient</h3>
+          <p class="text-gray-600">Streamlining administrative tasks and providing comprehensive school management solutions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-20 px-10 bg-gray-50">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-4xl font-bold text-center text-gray-800 mb-12">Powerful Features</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+          <div class="text-3xl mb-4">📊</div>
+          <h3 class="text-xl font-semibold mb-3">Student Management</h3>
+          <p class="text-gray-600">Comprehensive student profiles, attendance tracking, and academic records management.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+          <div class="text-3xl mb-4">📝</div>
+          <h3 class="text-xl font-semibold mb-3">Grade Management</h3>
+          <p class="text-gray-600">Easy grade entry, calculation, and report generation for better academic tracking.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+          <div class="text-3xl mb-4">📅</div>
+          <h3 class="text-xl font-semibold mb-3">Attendance System</h3>
+          <p class="text-gray-600">Automated attendance tracking with detailed reports and analytics.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+          <div class="text-3xl mb-4">📈</div>
+          <h3 class="text-xl font-semibold mb-3">Performance Analytics</h3>
+          <p class="text-gray-600">Advanced analytics and insights to track student and class performance trends.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+          <div class="text-3xl mb-4">🔐</div>
+          <h3 class="text-xl font-semibold mb-3">Secure Access</h3>
+          <p class="text-gray-600">Role-based access control ensuring data security and privacy protection.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+          <div class="text-3xl mb-4">📱</div>
+          <h3 class="text-xl font-semibold mb-3">Mobile Ready</h3>
+          <p class="text-gray-600">Responsive design that works seamlessly across all devices and platforms.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What We Do Section -->
+  <section id="services" class="py-20 px-10 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-4xl font-bold text-center text-gray-800 mb-12">What We Do</h2>
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h3 class="text-2xl font-semibold mb-6 text-blue-800">Comprehensive School Management Solutions</h3>
+          <div class="space-y-4">
+            <div class="flex items-start space-x-3">
+              <div class="text-blue-600 text-xl">✓</div>
+              <div>
+                <h4 class="font-semibold">Student Information Management</h4>
+                <p class="text-gray-600">Complete student lifecycle management from enrollment to graduation.</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="text-blue-600 text-xl">✓</div>
+              <div>
+                <h4 class="font-semibold">Academic Performance Tracking</h4>
+                <p class="text-gray-600">Monitor grades, attendance, and overall academic progress.</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="text-blue-600 text-xl">✓</div>
+              <div>
+                <h4 class="font-semibold">Administrative Automation</h4>
+                <p class="text-gray-600">Streamline administrative tasks and reduce manual workload.</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="text-blue-600 text-xl">✓</div>
+              <div>
+                <h4 class="font-semibold">Communication Hub</h4>
+                <p class="text-gray-600">Facilitate seamless communication between all stakeholders.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-gradient-to-br from-blue-100 to-purple-100 p-8 rounded-lg">
+          <h4 class="text-xl font-semibold mb-4 text-center">Our Mission</h4>
+          <p class="text-gray-700 text-center leading-relaxed">
+            To provide educational institutions with innovative technology solutions that enhance learning outcomes, 
+            streamline operations, and create a connected educational ecosystem that benefits students, teachers, 
+            and administrators alike.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="py-20 px-10 bg-gray-50">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-4xl font-bold text-center text-gray-800 mb-12">What Our Users Say</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <div class="flex items-center mb-4">
+            <div class="text-yellow-400 text-xl">★★★★★</div>
+          </div>
+          <p class="text-gray-600 mb-4">
+            "EduTrack has revolutionized how we manage our school. The interface is intuitive and the features are exactly what we needed."
+          </p>
+          <div class="flex items-center">
+            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold mr-3">SM</div>
+            <div>
+              <div class="font-semibold">Sarah Mitchell</div>
+              <div class="text-sm text-gray-500">School Principal</div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <div class="flex items-center mb-4">
+            <div class="text-yellow-400 text-xl">★★★★★</div>
+          </div>
+          <p class="text-gray-600 mb-4">
+            "As a teacher, I love how easy it is to track student progress and manage grades. It saves me hours every week."
+          </p>
+          <div class="flex items-center">
+            <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white font-semibold mr-3">JD</div>
+            <div>
+              <div class="font-semibold">John Davis</div>
+              <div class="text-sm text-gray-500">Mathematics Teacher</div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <div class="flex items-center mb-4">
+            <div class="text-yellow-400 text-xl">★★★★★</div>
+          </div>
+          <p class="text-gray-600 mb-4">
+            "The student portal is fantastic! I can easily check my grades and attendance. It keeps me organized and motivated."
+          </p>
+          <div class="flex items-center">
+            <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-semibold mr-3">EW</div>
+            <div>
+              <div class="font-semibold">Emma Wilson</div>
+              <div class="text-sm text-gray-500">High School Student</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-20 px-10 bg-white">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-4xl font-bold text-gray-800 mb-4">Ready to Get Started?</h2>
+      <p class="text-xl text-gray-600 mb-8">
+        Join thousands of schools already using EduTrack to transform their educational management.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/signup" class="inline-block bg-blue-600 text-white px-8 py-4 rounded-lg text-lg hover:bg-blue-700 transition-colors font-semibold">
+          Start Your Free Trial
+        </a>
+        <a href="mailto:contact@edutrack.com" class="inline-block border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-lg text-lg hover:bg-blue-600 hover:text-white transition-colors font-semibold">
+          Contact Us
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-12 px-10">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-2xl font-bold text-blue-400 mb-4">EduTrack</h3>
+          <p class="text-gray-300">
+            Transforming education management through innovative technology solutions.
+          </p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4">Product</h4>
+          <ul class="space-y-2 text-gray-300">
+            <li><a href="#features" class="hover:text-blue-400 transition-colors">Features</a></li>
+            <li><a href="#services" class="hover:text-blue-400 transition-colors">Services</a></li>
+            <li><a href="/signup" class="hover:text-blue-400 transition-colors">Pricing</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4">Support</h4>
+          <ul class="space-y-2 text-gray-300">
+            <li><a href="#" class="hover:text-blue-400 transition-colors">Help Center</a></li>
+            <li><a href="#" class="hover:text-blue-400 transition-colors">Documentation</a></li>
+            <li><a href="#" class="hover:text-blue-400 transition-colors">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4">Company</h4>
+          <ul class="space-y-2 text-gray-300">
+            <li><a href="#about" class="hover:text-blue-400 transition-colors">About</a></li>
+            <li><a href="#" class="hover:text-blue-400 transition-colors">Blog</a></li>
+            <li><a href="#" class="hover:text-blue-400 transition-colors">Careers</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
+        <p>&copy; 2025 EduTrack. All rights reserved. | Privacy Policy | Terms of Service</p>
+      </div>
+    </div>
+  </footer>
+
+<!-- Sidebar auto-hide/reappear script -->
+<script>
+  const sidebar = document.getElementById('sidebarMenu');
+  let hideTimeout;
+
+  function showSidebar() {
+    sidebar.style.opacity = '1';
+    sidebar.style.pointerEvents = 'auto';
+    resetHideTimer();
+  }
+
+  function hideSidebar() {
+    sidebar.style.opacity = '0';
+    sidebar.style.pointerEvents = 'none';
+  }
+
+  function resetHideTimer() {
+    clearTimeout(hideTimeout);
+    hideTimeout = setTimeout(hideSidebar, 1000);
+  }
+
+  // Show sidebar on any user activity
+  ['mousemove', 'keydown', 'scroll', 'touchstart'].forEach(evt => {
+    window.addEventListener(evt, showSidebar, { passive: true });
+  });
+
+  // Start the timer on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    resetHideTimer();
+  });
+</script>
+</body>
+</html>
+ 
